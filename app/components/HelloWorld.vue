@@ -3,7 +3,7 @@
         <ActionBar title="Home" />
 
         <StackLayout>
-            <BottomNavigation height="400px">
+            <BottomNavigation>
                 <TabStrip>
                     <TabStripItem>
                         <Label text="Home"></Label>
@@ -32,7 +32,7 @@
                     </ListView>
                 </TabContentItem>
                 <TabContentItem>
-                    <ListView for="malls in malladdress">
+                    <ListView for="malls in malladdress" @itemTap="onmallTap">
                         <v-template>
                             <StackLayout orientation="vertical" height="350">
                                 <Label :text="malls.mall" class="h2" />
@@ -41,27 +41,21 @@
                     </ListView>
                 </TabContentItem>
                 <TabContentItem>
-                    <ListView>
-                        <v-template>
-                            <Label :text="Coins <= 300" class="h2" />
-                            <Label :text="300 < Coins < 600" class="h2" />
-                            <Label :text="Coins > 600" class="h2" />
-                        </v-template>
-                    </ListView>
+
+                    <StackLayout orientation="vertical">
+                        <Label text="Coins <= 300" class="h2" />
+                        <Label text="300 < Coins < 600" class="h2" />
+                        <Label text="Coins > 600" class="h2" />
+                    </StackLayout>
+
                 </TabContentItem>
                 <TabContentItem>
                     <GridLayout>
-                        <ListView>
-                            <v-template>
-                                <FlexboxLayout flexDirection="row">
-                                    <Label :text="Logoff / Login" class="t-12"
-                                        style="width: 60%"
-                                        @itemTap="onloginTap" />
-                                    <Label :text="My redeemed coupon"
-                                        class="t-12" style="width: 60%" />
-                                </FlexboxLayout>
-                            </v-template>
-                        </ListView>
+                        <StackLayout orientation="vertical">
+                            <Label text="Logoff / Login" class="h2"
+                                @tap="onloginTap" />
+                            <Label text="My redeemed coupon" class="h2" />
+                        </StackLayout>
                     </GridLayout>
                 </TabContentItem>
             </BottomNavigation>
@@ -70,7 +64,9 @@
 </template>
 
 <script>
-    //import QponDetail from "./QponDetail";
+    import QponDetail from "./Qpondetail";
+    import Mallchoice from "./Mallchoice";
+    import Login from "./Login";
 
     export default {
         methods: {
@@ -90,6 +86,18 @@
                     transition: {},
                     props: {}
                 });
+            },
+
+            onmallTap: function(args) {
+                console.log("Item with index: " + args.index + " tapped");
+                console.log("Qpon tapped:" + args.item.mall);
+                this.$navigateTo(Mallchoice, {
+                    transition: {},
+                    props: {
+                        tappedMall: args.item.mall
+                    }
+                });
+                //console.log(args.item.mall);
             }
         },
 

@@ -24,6 +24,8 @@
 </template>
 
 <script>
+    import Address from "./Address";
+
     export default {
         props: ["tappedQpon"],
         methods: {
@@ -39,10 +41,11 @@
             },
 
             onButtonTap2: function(args) {
+                console.log("onButtonTap2 " + this.tappedQpon.mall );
                 this.$navigateTo(Address, {
                     transition: {},
                     props: {
-                        qponmall: tappedQpon.mall
+                        qponmall: this.tappedQpon.mall
                     }
                 });
             }
