@@ -19,7 +19,8 @@
                 this.pw = this.password;
                 console.log(this.username);
                 console.log(this.password);
-                var response = await fetch("./user/login", {
+                var response = await fetch(global.baseUrl +
+                "/user/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -30,15 +31,12 @@
                     })
                 });
                 if (response.ok) {
-                    console.log("ok");
                     var abc = await response.json();
-                    this.user = abc.json;
-                    console.log(this.user);
-                    alert("Welcome back, " + user.username);
+                    alert("Welcome back, " + abc.username);
                     this.$navigateTo(HelloWorld, {
                         transition: {},
                         props: {
-                            data: this.user
+                            data: abc
                         }
                     });
                 } else if (response.status == 401) {
@@ -51,7 +49,7 @@
         },
         data() {
             return {
-                user: []
+                
             };
         }
     };

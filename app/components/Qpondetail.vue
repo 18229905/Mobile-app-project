@@ -1,7 +1,7 @@
 <template>
     <Page>
         <StackLayout>
-            <Image :src="tappedQpon.image" height="300"
+            <Image :src="tappedQpon.image" height="400"
                 stretch="aspectFill" />
             <ScrollView>
                 <StackLayout class="m-10">
@@ -25,47 +25,82 @@
 
 <script>
     import Address from "./Address";
+    import Login from "./Login";
 
     export default {
         props: ["tappedQpon", "user"],
         methods: {
             onButtonTap1: async function() {
-                console.log("Button was pressed");
+                //console.log("Button was pressed");
+                //console.log(this.user);
                 var result = await confirm({
                     title: "Are you sure?",
                     message: "To redeem this coupon?",
                     okButtonText: "Yes",
                     cancelButtonText: "No"
                 });
-                if (result && this.user.coin >= this.tappedQpon.coins && this.tappedQpon.quota >= 1) {
-                    var result2 = await confirm({
-                        title: "Redeem successfully",
-                        okButtonText: "OK"
-                    });
-                } else if (result && (this.user.coin <= this.tappedQpon.coins || this.tappedQpon.quota <= 1)) {
+                if (
+                    result &&
+                    this.qponredeemed.coin >= this.tappedQpon.coins &&
+                    this.tappedQpon.quota >= 1
+                ) {
+                    var response = await fetch(
+                        global.baseUrl + "/qpon/read/" + this
+                        .tappedQpon.id, {
+                            method: "POST"
+                        }
+                    );
+                    if (response.ok) {
+                        console.log("ok");
                         var result2 = await confirm({
-                            title: "No quota / Not enough coins",
+                            title: "Redeem successfully",
                             okButtonText: "OK"
                         });
+                    } else {
+                        console.log(response.statusText);
                     }
-                this.$navigateBack();
-                },
-
-                onButtonTap2: function(args) {
-                    console.log("onButtonTap2 " + this.tappedQpon
-                        .mall);
-                    this.$navigateTo(Address, {
-                        transition: {},
-                        props: {
-                            qponmall: this.tappedQpon.mall
-                        }
+                } else if (
+                    result &&
+                    (this.qponredeemed.coin <= this.tappedQpon.coins ||
+                        this.tappedQpon.quota <= 1)
+                ) {
+                    var result2 = await confirm({
+                        title: "No quota / Not enough coins",
+                        okButtonText: "OK"
                     });
                 }
+                this.$navigateBack();
             },
-            data() {
-                return {};
+
+            onButtonTap2: function(args) {
+                //console.log("onButtonTap2 " + this.tappedQpon.mall);
+                this.$navigateTo(Address, {
+                    transition: {},
+                    props: {
+                        qponmall: this.tappedQpon.mall
+                    }
+                });
             }
-        };
+        },
+
+        async mounted() {
+            //console.log(this.user.id);
+            var response = await fetch(
+                global.baseUrl + "/user/" + this.user.id + "/redeemed"
+            );
+            if (response.ok) {
+                this.qponredeemed = await response.json();
+                console.log(JSON.stringify(this.qponredeemed));
+            } else {
+                console.log(response.statusText);
+            }
+        },
+        data() {
+            return {
+                qponredeemed: []
+            };
+        }
+    };
 </script>
 
 <style>

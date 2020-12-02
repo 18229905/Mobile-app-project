@@ -4,6 +4,7 @@
             <v-template>
                 <StackLayout orientation="vertical" height="350">
                     <Label :text="qpon.restaurant" class="h2" />
+                    <Label :text="qpon.mall" class="h4"/>
                 </StackLayout>
             </v-template>
         </ListView>
@@ -13,7 +14,7 @@
 <script>
     import QponDetail from "./Qpondetail";
     export default {
-        props: ["tappedMall","user"],
+        props: ["tappedMall", "user"],
 
         methods: {
             onItemTap: function(args) {

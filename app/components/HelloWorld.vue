@@ -21,8 +21,8 @@
                 <TabContentItem>
                     <ListView for="qpon in qpons" @itemTap="onItemTap">
                         <v-template>
-                            <StackLayout orientation="vertical" height="350">
-                                <Image :src="qpon.image" height="300"
+                            <StackLayout orientation="vertical" height="500">
+                                <Image :src="qpon.image" height="400"
                                     stretch="aspectFill" />
                                 <Label :text="qpon.title" class="h2" />
                                 <Label :text="qpon.detail" class="h2" />
@@ -41,7 +41,6 @@
                     </ListView>
                 </TabContentItem>
                 <TabContentItem>
-
                     <StackLayout orientation="vertical">
                         <Label text="Coins <= 300" class="h2"
                             @tap="oncoin0Tap" />
@@ -55,10 +54,12 @@
                 <TabContentItem>
                     <GridLayout>
                         <StackLayout orientation="vertical">
-                            <Label text="Logoff / Login" class="h2"
+                            <Label text="Login" class="h2"
                                 @tap="onloginTap" />
                             <Label text="My redeemed coupon" class="h2"
                                 @tap="onredeemedTap" />
+                            <Label text="Logout" class="h2"
+                                @tap="onlogoutTap" />
                         </StackLayout>
                     </GridLayout>
                 </TabContentItem>
@@ -94,58 +95,74 @@
                     props: {}
                 });
             },
-            onredeemedTap: function() {
-                this.$navigateTo(Redeemedqpon, {
-                    transition: {},
-                    props: {
-                        user: this.data
-                    }
-                });
-            },
-            onmallTap: function(args) {
-                console.log("Item with index: " + args.index + " tapped");
-                console.log("Qpon tapped:" + args.item.mall);
-                this.$navigateTo(Mallchoice, {
-                    transition: {},
-                    props: {
-                        tappedMall: args.item.mall,
-                        user: this.data
-                    }
-                });
-            },
-            oncoin0Tap: function(args) {
-                this.$navigateTo(Coinchoice, {
-                    transition: {},
-                    props: {
-                        tappedCoin1: "300",
-                        tappedCoin2: "0",
-                        user: this.data
-                    }
-                });
-            },
-            oncoin300Tap: function(args) {
-                this.$navigateTo(Coinchoice, {
-                    transition: {},
-                    props: {
-                        tappedCoin1: "600",
-                        tappedCoin2: "300",
-                        user: this.data
-                    }
-                });
-            },
-            oncoin600Tap: function(args) {
-                this.$navigateTo(Coinchoice, {
-                    transition: {},
-                    props: {
-                        tappedCoin1: "10000",
-                        tappedCoin2: "600",
-                        user: this.data
-                    }
-                });
-            }
+
+            onlogoutTap: async function() {
+                var response = await fetch(global.baseUrl +
+                    "/user/logout", {
+                        method: "POST",
+                    });
+                if (response.ok) {  
+                    alert("Logouted");
+                    this.data = null;
+                    console.log(this.data);
+                } else {
+                    alert(response.status + ": " + response.statusText);
+                }
         },
 
-        async mounted() {
+        onredeemedTap: function() {
+            this.$navigateTo(Redeemedqpon, {
+                transition: {},
+                props: {
+                    user: this.data
+                }
+            });
+            //console.log(this.data);
+        },
+        onmallTap: function(args) {
+            console.log("Item with index: " + args.index + " tapped");
+            console.log("Qpon tapped:" + args.item.mall);
+            this.$navigateTo(Mallchoice, {
+                transition: {},
+                props: {
+                    tappedMall: args.item.mall,
+                    user: this.data
+                }
+            });
+        },
+        oncoin0Tap: function(args) {
+            this.$navigateTo(Coinchoice, {
+                transition: {},
+                props: {
+                    tappedCoin1: "300",
+                    tappedCoin2: "0",
+                    user: this.data
+                }
+            });
+        },
+        oncoin300Tap: function(args) {
+            this.$navigateTo(Coinchoice, {
+                transition: {},
+                props: {
+                    tappedCoin1: "600",
+                    tappedCoin2: "300",
+                    user: this.data
+                }
+            });
+        },
+        oncoin600Tap: function(args) {
+            this.$navigateTo(Coinchoice, {
+                transition: {},
+                props: {
+                    tappedCoin1: "10000",
+                    tappedCoin2: "600",
+                    user: this.data
+                }
+            });
+        }
+    },
+
+    async mounted() {
             var response = await fetch(global.baseUrl + "/qpon/json");
             if (response.ok) {
                 this.qpons = await response.json();
@@ -157,6 +174,7 @@
         data() {
             return {
                 qpons: [],
+                empty: [],
 
                 malladdress: [{
                         mall: "IFC Mall",
