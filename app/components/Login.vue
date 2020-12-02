@@ -17,16 +17,23 @@
                 console.log("Button was pressed");
                 this.account = this.username;
                 this.pw = this.password;
-
+                console.log(this.username);
+                console.log(this.password);
                 var response = await fetch("./user/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: new FormData(this.username, this.password)
+                    body: JSON.stringify({
+                        username: this.username,
+                        password: this.password
+                    })
                 });
                 if (response.ok) {
-                    this.user = await response.json();
+                    console.log("ok");
+                    var abc = await response.json();
+                    this.user = abc.json;
+                    console.log(this.user);
                     alert("Welcome back, " + user.username);
                     this.$navigateTo(HelloWorld, {
                         transition: {},
