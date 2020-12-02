@@ -39,11 +39,9 @@
                     okButtonText: "Yes",
                     cancelButtonText: "No"
                 });
-                if (
-                    result &&
-                    this.qponredeemed.coin >= this.tappedQpon.coins &&
-                    this.tappedQpon.quota >= 1
-                ) {
+
+                if (this.user != null) {
+                    if (result && this.qponredeemed.coin >= this.tappedQpon.coins && this.tappedQpon.quota >= 1) {
                     var response = await fetch(
                         global.baseUrl + "/qpon/read/" + this
                         .tappedQpon.id, {
@@ -57,6 +55,7 @@
                             okButtonText: "OK"
                         });
                     } else {
+                        alert(response.statusText);
                         console.log(response.statusText);
                     }
                 } else if (
@@ -68,6 +67,9 @@
                         title: "No quota / Not enough coins",
                         okButtonText: "OK"
                     });
+                }
+                } else {
+                    alert("You haven't login. Please login!");
                 }
                 this.$navigateBack();
             },
