@@ -29,7 +29,7 @@
         },
         async mounted() {
             var response = await fetch(
-                global.baseUrl + "/user" + user.id + "/redeemed"
+                global.baseUrl + "/user/" + user.id + "/redeemed"
             );
             if (response.ok) {
                 this.qponredeemed = await response.json();
