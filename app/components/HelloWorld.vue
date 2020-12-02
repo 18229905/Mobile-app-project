@@ -43,9 +43,12 @@
                 <TabContentItem>
 
                     <StackLayout orientation="vertical">
-                        <Label text="Coins <= 300" class="h2" />
-                        <Label text="300 < Coins < 600" class="h2" />
-                        <Label text="Coins > 600" class="h2" />
+                        <Label text="Coins <= 300" class="h2"
+                            @tap="oncoin0Tap" />
+                        <Label text="300 < Coins < 600" class="h2"
+                            @tap="oncoin300Tap" />
+                        <Label text="Coins > 600" class="h2"
+                            @tap="oncoin600Tap" />
                     </StackLayout>
 
                 </TabContentItem>
@@ -54,7 +57,8 @@
                         <StackLayout orientation="vertical">
                             <Label text="Logoff / Login" class="h2"
                                 @tap="onloginTap" />
-                            <Label text="My redeemed coupon" class="h2" />
+                            <Label text="My redeemed coupon" class="h2"
+                                @tap="onredeemedTap" />
                         </StackLayout>
                     </GridLayout>
                 </TabContentItem>
@@ -67,8 +71,10 @@
     import QponDetail from "./Qpondetail";
     import Mallchoice from "./Mallchoice";
     import Login from "./Login";
-
+    import Coinchoice from "./Coinchoice";
+    import Redeemedqpon from "./Redeemedqpon";
     export default {
+        props: ["data"],
         methods: {
             onItemTap: function(args) {
                 console.log("Item with index: " + args.index + " tapped");
@@ -76,7 +82,8 @@
                 this.$navigateTo(QponDetail, {
                     transition: {},
                     props: {
-                        tappedQpon: args.item
+                        tappedQpon: args.item,
+                        user: this.data
                     }
                 });
             },
@@ -87,17 +94,54 @@
                     props: {}
                 });
             },
-
+            onredeemedTap: function() {
+                this.$navigateTo(Redeemedqpon, {
+                    transition: {},
+                    props: {
+                        user: this.data
+                    }
+                });
+            },
             onmallTap: function(args) {
                 console.log("Item with index: " + args.index + " tapped");
                 console.log("Qpon tapped:" + args.item.mall);
                 this.$navigateTo(Mallchoice, {
                     transition: {},
                     props: {
-                        tappedMall: args.item.mall
+                        tappedMall: args.item.mall,
+                        user: this.data
                     }
                 });
-                //console.log(args.item.mall);
+            },
+            oncoin0Tap: function(args) {
+                this.$navigateTo(Coinchoice, {
+                    transition: {},
+                    props: {
+                        tappedCoin1: "300",
+                        tappedCoin2: "0",
+                        user: this.data
+                    }
+                });
+            },
+            oncoin300Tap: function(args) {
+                this.$navigateTo(Coinchoice, {
+                    transition: {},
+                    props: {
+                        tappedCoin1: "600",
+                        tappedCoin2: "300",
+                        user: this.data
+                    }
+                });
+            },
+            oncoin600Tap: function(args) {
+                this.$navigateTo(Coinchoice, {
+                    transition: {},
+                    props: {
+                        tappedCoin1: "10000",
+                        tappedCoin2: "600",
+                        user: this.data
+                    }
+                });
             }
         },
 

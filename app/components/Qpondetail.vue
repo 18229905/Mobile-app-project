@@ -27,7 +27,7 @@
     import Address from "./Address";
 
     export default {
-        props: ["tappedQpon"],
+        props: ["tappedQpon", "user"],
         methods: {
             onButtonTap1: async function() {
                 console.log("Button was pressed");
@@ -37,23 +37,35 @@
                     okButtonText: "Yes",
                     cancelButtonText: "No"
                 });
-                this.$navigateBack();
-            },
-
-            onButtonTap2: function(args) {
-                console.log("onButtonTap2 " + this.tappedQpon.mall );
-                this.$navigateTo(Address, {
-                    transition: {},
-                    props: {
-                        qponmall: this.tappedQpon.mall
+                if (result && this.user.coin >= this.tappedQpon.coins && this.tappedQpon.quota >= 1) {
+                    var result2 = await confirm({
+                        title: "Redeem successfully",
+                        okButtonText: "OK"
+                    });
+                } else if (result && (this.user.coin <= this.tappedQpon.coins || this.tappedQpon.quota <= 1)) {
+                        var result2 = await confirm({
+                            title: "No quota / Not enough coins",
+                            okButtonText: "OK"
+                        });
                     }
-                });
+                this.$navigateBack();
+                },
+
+                onButtonTap2: function(args) {
+                    console.log("onButtonTap2 " + this.tappedQpon
+                        .mall);
+                    this.$navigateTo(Address, {
+                        transition: {},
+                        props: {
+                            qponmall: this.tappedQpon.mall
+                        }
+                    });
+                }
+            },
+            data() {
+                return {};
             }
-        },
-        data() {
-            return {};
-        }
-    };
+        };
 </script>
 
 <style>

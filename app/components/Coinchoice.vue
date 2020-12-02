@@ -1,5 +1,5 @@
 <template>
-    <Page>
+    <page>
         <ListView for="qpon in qponselect" @itemTap="onItemTap">
             <v-template>
                 <StackLayout orientation="vertical" height="350">
@@ -7,13 +7,13 @@
                 </StackLayout>
             </v-template>
         </ListView>
-    </Page>
+    </page>
 </template>
 
 <script>
     import QponDetail from "./Qpondetail";
     export default {
-        props: ["tappedMall","user"],
+        props: ["tappedCoin1", "tappedCoin2","user"],
 
         methods: {
             onItemTap: function(args) {
@@ -30,7 +30,8 @@
         },
 
         async mounted() {
-            console.log(JSON.stringify(this.tappedMall));
+            console.log(this.tappedCoin1);
+            console.log(this.tappedCoin2);
             var response = await fetch(global.baseUrl + "/qpon/json");
             if (response.ok) {
                 this.qpons = await response.json();
@@ -40,7 +41,10 @@
             }
             this.qponselect = this.qpons.filter(
                 function(p) {
-                    return p.mall == this.tappedMall;
+                    return (
+                        p.coins <= this.tappedCoin1 && p.coins >=
+                        this.tappedCoin2
+                    );
                 }.bind(this)
             );
             console.log(JSON.stringify(this.qponselect));
