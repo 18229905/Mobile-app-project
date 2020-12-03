@@ -43,6 +43,7 @@
                     var msg = await response.json();
                     alert(msg);
                 } else {
+                    alert("Please input password!");
                     console.log(response.status);
                 }
             }

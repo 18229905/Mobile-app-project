@@ -59,13 +59,13 @@
                         longitude: 114.1668661
                     },
                     {
-                        mall: "Festival Walk ",
+                        mall: "Festival Walk",
                         region: "Kowloon",
                         latitude: 22.3372971,
                         longitude: 114.1745273
                     },
                     {
-                        mall: "MegaBox ",
+                        mall: "MegaBox",
                         region: "Kowloon",
                         latitude: 22.319857,
                         longitude: 114.208168
@@ -77,13 +77,13 @@
                         longitude: 114.22513219999996
                     },
                     {
-                        mall: "Tsuen Wan Plaza ",
+                        mall: "Tsuen Wan Plaza",
                         region: "NT",
                         "latitude ": 22.370735,
                         longitude: 114.111309
                     },
                     {
-                        mall: "New Town Plaza ",
+                        mall: "New Town Plaza",
                         region: "NT",
                         latitude: 22.3814592,
                         longitude: 114.1889307

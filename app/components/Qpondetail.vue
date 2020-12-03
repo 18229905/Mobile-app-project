@@ -2,12 +2,12 @@
     <Page>
         <StackLayout>
             <Image :src="tappedQpon.image" height="400"
-                stretch="aspectFill" />
+                stretch="aspectFit" />
             <ScrollView>
                 <StackLayout class="m-10">
-                    <Label class="h2" :text="tappedQpon.name" />
-                    <Label class="h4" :text="tappedQpon.detail" />
-                    <Label class="h4" :text="'Mall: ' + tappedQpon.detail" />
+                    <Label class="h2" :text="tappedQpon.restaurant" />
+                    <Label class="h4" :text="'Detail: ' + tappedQpon.detail" />
+                    <Label class="h4" :text="'Mall: ' + tappedQpon.mall" />
                     <Label class="h4" :text="'Coins: ' + tappedQpon.coins" />
                     <Label class="h4"
                         :text="'Expiry Date: ' + tappedQpon.date" />
@@ -54,8 +54,9 @@
                             title: "Redeem successfully",
                             okButtonText: "OK"
                         });
+                        this.$navigateBack();
                     } else {
-                        alert(response.statusText);
+                        alert("You have already redeeded!");
                         console.log(response.statusText);
                     }
                 } else if (
@@ -70,8 +71,12 @@
                 }
                 } else {
                     alert("You haven't login. Please login!");
+                    this.$navigateTo(Login, {
+                    transition: {},
+                    props: {}
+                });
                 }
-                this.$navigateBack();
+                
             },
 
             onButtonTap2: function(args) {

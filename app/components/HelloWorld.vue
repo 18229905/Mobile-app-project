@@ -23,10 +23,10 @@
                         <v-template>
                             <StackLayout orientation="vertical" height="500">
                                 <Image :src="qpon.image" height="400"
-                                    stretch="aspectFill" />
-                                <Label :text="qpon.title" class="h2" />
-                                <Label :text="qpon.detail" class="h2" />
-                                <Label :text="qpon.coins" class="h2" />
+                                    stretch="aspectFit" />
+                                <Label :text="qpon.restaurant" class="h2" />
+                                <Label :text="'Detail : ' + qpon.detail" class="h2" />
+                                <Label :text="'Coins : ' + qpon.coins" class="h2" />
                             </StackLayout>
                         </v-template>
                     </ListView>
